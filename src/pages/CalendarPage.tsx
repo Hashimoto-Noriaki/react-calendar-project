@@ -10,6 +10,7 @@ import {
 } from "date-fns";
 import { DAYS_LIST } from "../constants/calendar";
 import type { DateList } from "../types/calendar";
+import { dateColor } from "../libs/date"; 
 
 export const CalendarPage = () => {
     const [dateList, setDateList] = useState<DateList>([]);
@@ -62,7 +63,10 @@ export const CalendarPage = () => {
                                 key={`day-${weekIndex}-${dayIndex}`}
                                 className="bg-white h-[10vh] border-2 border-solid border-lime-800"
                             >
-                                <span className="inline-block w-5 leading-5 text-center">
+                                <span className={`inline-block w-5 leading-5 text-center ${dateColor(
+                                    item.date,
+                                    new Date()
+                                )}`}>
                                     {getDate(item.date)}
                                 </span>
                             </td>
