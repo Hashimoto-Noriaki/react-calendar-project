@@ -1,4 +1,4 @@
-import { useLoginUser } from '../features/auth/hooks/useLoginUser'
+import { useLoginUser } from '../features/auth'
 
 export const CalendarPage = () => {
     // Contextからログインユーザー情報を取得

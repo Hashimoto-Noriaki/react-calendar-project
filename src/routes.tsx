@@ -2,8 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import { TopPage } from "./pages/TopPage";
 import { LoginPage } from "./pages/LoginPage";
 import { CalendarPage } from "./pages/CalendarPage";
-import { NotLoginLayout } from "./shared/components/organisms/NotLoginLayout";
-import { LoginLayout } from "./shared/components/organisms/LoginLayout";
+import { NotLoginLayout,LoginLayout } from "./shared/components/organisms";
 
 export const router = createBrowserRouter([
     {

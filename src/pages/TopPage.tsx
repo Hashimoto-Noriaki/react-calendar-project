@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { PrimaryBtn } from '../shared/components/atoms/PrimaryBtn'
+import { PrimaryBtn } from '../shared/components/atoms';
 
 export const TopPage = () => {
     const navigate = useNavigate()

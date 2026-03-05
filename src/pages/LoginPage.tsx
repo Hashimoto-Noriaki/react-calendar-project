@@ -2,11 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Input } from "../shared/components/atoms/Input";
-import { PrimaryBtn } from "../shared/components/atoms/PrimaryBtn";
-import { loginSchema, type LoginFormData } from "../features/auth/schemas/loginSchema"
-import { login } from "../features/auth/api/login";
-import { useLoginUser } from "../features/auth/hooks/useLoginUser"
+import { Input,PrimaryBtn  } from "../shared/components/atoms";
+import { loginSchema, login, useLoginUser, type LoginFormData } from "../features/auth"
 
 export const LoginPage = () => {
     const navigate = useNavigate()

@@ -1,5 +1,5 @@
 import { Link,Navigate,Outlet,useNavigate } from "react-router-dom";
-import { useLoginUser } from "../../../features/auth/hooks/useLoginUser";
+import { useLoginUser } from "../../../features/auth";
 import { FaUser } from 'react-icons/fa'
 import { MdLogout } from 'react-icons/md'
 
