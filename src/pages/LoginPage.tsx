@@ -1,12 +1,16 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "../shared/components/atoms/Input";
 import { PrimaryBtn } from "../shared/components/atoms/PrimaryBtn";
 import { loginSchema, type LoginFormData } from "../features/auth/schemas/loginSchema"
 import { login } from "../features/auth/api/login";
+import { useLoginUser } from "../features/auth/hooks/useLoginUser"
 
 export const LoginPage = () => {
+    const navigate = useNavigate()
+    const { setLoginUser } = useLoginUser()
     const [errorMessage,setErrorMessage] = useState("")
 
     const {
@@ -20,7 +24,9 @@ export const LoginPage = () => {
     const onSubmit = (data: LoginFormData) => {
         setErrorMessage("")
         try {
-            login(data)
+            const resUser = login(data)
+            setLoginUser({ id: resUser.id, name: resUser.name })
+            navigate("/calendar")
         } catch {
             setErrorMessage("ログインに失敗しました。")
         }
