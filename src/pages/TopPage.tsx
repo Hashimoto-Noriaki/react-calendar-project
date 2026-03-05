@@ -1,4 +1,4 @@
-import { PrimaryBtn } from '../shared/components/organisms/PrimaryBtn'
+import { PrimaryBtn } from '../shared/components/atoms/PrimaryBtn'
 import { NotLoginLayout } from '../shared/components/organisms/NotLoginLayout'
 
 export const TopPage = () => {
