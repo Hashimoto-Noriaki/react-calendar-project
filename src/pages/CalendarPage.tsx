@@ -4,13 +4,11 @@ import {
     eachWeekOfInterval,
     endOfMonth,
     endOfWeek,
-    getDate,
     getMonth,
     startOfMonth,
 } from "date-fns";
-import { DAYS_LIST } from "../constants/calendar";
 import type { DateList } from "../types/calendar";
-import { dateColor } from "../libs/date"; 
+import { CalendarHeader, CalendarBody } from "../shared/components/organisms";
 
 export const CalendarPage = () => {
     const [dateList, setDateList] = useState<DateList>([]);
@@ -43,37 +41,11 @@ export const CalendarPage = () => {
     return (
     <>
         <h1 className="font-bold text-3xl mb-5">
-        {`${getMonth(new Date()) + 1}月`}
+            {`${getMonth(new Date()) + 1}月`}
         </h1>
         <table className="w-[80%] border-collapse border-2 border-solid border-lime-800 table-fixed">
-            <thead>
-                <tr className="bg-lime-800 text-white rounded-tl-lg rounded-tr-lg py-10">
-                {DAYS_LIST.map((day) => (
-                    <th key={day} className="text-center text-xl py-3">
-                    {day}
-                    </th>
-                ))}
-                </tr>
-            </thead>
-            <tbody>
-                {dateList.map((oneWeek, weekIndex) => (
-                    <tr key={`week-${weekIndex}`} className="mx-10">
-                        {oneWeek.map((item, dayIndex) => (
-                            <td
-                                key={`day-${weekIndex}-${dayIndex}`}
-                                className="bg-white h-[10vh] border-2 border-solid border-lime-800"
-                            >
-                                <span className={`inline-block w-5 leading-5 text-center ${dateColor(
-                                    item.date,
-                                    new Date()
-                                )}`}>
-                                    {getDate(item.date)}
-                                </span>
-                            </td>
-                        ))}
-                    </tr>
-                ))}
-            </tbody>
+            <CalendarHeader />
+            <CalendarBody currentDate={new Date()} dateList={dateList} />
         </table>
     </>
     );
