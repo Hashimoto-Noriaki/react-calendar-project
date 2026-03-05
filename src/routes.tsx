@@ -3,6 +3,7 @@ import { TopPage } from "./pages/TopPage";
 import { LoginPage } from "./pages/LoginPage";
 import { CalendarPage } from "./pages/CalendarPage";
 import { NotLoginLayout } from "./shared/components/organisms/NotLoginLayout";
+import { LoginLayout } from "./shared/components/organisms/LoginLayout";
 
 export const router = createBrowserRouter([
     {
@@ -11,7 +12,10 @@ export const router = createBrowserRouter([
         children: [
             {index: true, element: <TopPage/> },
             {path: "/login", element: <LoginPage/> },
-            {path: "/calendar", element: <CalendarPage/> },
         ],
     },
+    {
+        element:<LoginLayout/>,
+        children: [{ path: "/calendar", element: <CalendarPage/> }],
+    }
 ])
