@@ -33,17 +33,15 @@ export const CalendarPage = () => {
                     end: endOfWeek(date),
                 }).map((date) => ({ date, schedules: [] }))
             );
-
             setDateList(newDateList);
         };
-
         fetchCalendar();
     }, [currentDate]);
 
     return (
         <>
             <h1 className="font-bold text-3xl mb-5">
-            {`${getMonth(currentDate) + 1}月`}
+                {`${getMonth(currentDate) + 1}月`}
             </h1>
             <CalendarNav setCurrentDate={setCurrentDate} />
             <table className="w-[80%] border-collapse border-2 border-solid border-lime-800 table-fixed">
