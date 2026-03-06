@@ -58,7 +58,7 @@ export const LoginPage = () => {
                         <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
                     )}
                 </div>
-                <PrimaryBtn onClick={()=> null}>ログイン</PrimaryBtn>
+                <PrimaryBtn size="lg" onClick={()=> null}>ログイン</PrimaryBtn>
             </form>
         </div>
     )
