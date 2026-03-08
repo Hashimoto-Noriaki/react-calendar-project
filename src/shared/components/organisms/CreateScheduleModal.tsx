@@ -63,7 +63,7 @@ export const CreateScheduleModal = ({
                     予定作成
                 </h3>
                 {errorMessage !== "" && (
-                    <div className="p-5 mb-5 bg-red-500 text-white text-center rounded-lg">
+                    <div className="p-3 mb-3 bg-red-500 text-white text-center rounded-lg">
                     {errorMessage}
                     </div>
                 )}
