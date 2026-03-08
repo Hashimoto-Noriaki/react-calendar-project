@@ -60,4 +60,9 @@ export const handlers = [
     const updated = scheduleStore.find((s) => s.id === id);
     return HttpResponse.json(updated);
   }),
+  http.delete("/api/schedules/:id", ({ params }) => {
+    const id = Number(params.id);
+    scheduleStore = scheduleStore.filter((s) => s.id !== id);
+    return HttpResponse.json({ id });
+  }),
 ];

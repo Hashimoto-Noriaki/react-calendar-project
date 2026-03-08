@@ -6,7 +6,8 @@ import type { Schedule } from "../../../types/calendar";
 type PropsType = {
     selectedSchedule: Schedule | null;
     closeModal: () => void;
-    onClickEdit:()=> void; 
+    onClickEdit:() => void;
+    onClickDelete:() => void; 
 };
 
 const customStyles = {
@@ -22,6 +23,7 @@ export const ScheduleDetailModal = ({
     selectedSchedule,
     closeModal,
     onClickEdit,
+    onClickDelete,
 }: PropsType) => {
     return (
         <Modal
@@ -48,6 +50,12 @@ export const ScheduleDetailModal = ({
                             onClick={onClickEdit}
                         >
                             編集
+                        </button>
+                        <button
+                            className="bg-red-500 text-white rounded px-6 py-2"
+                            onClick={onClickDelete}
+                        >
+                            削除
                         </button>
                     </div>
                 </div>

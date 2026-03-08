@@ -68,6 +68,22 @@ export const useCalendar = ({ currentDate }: PropsType) => {
         setDateList(newDateList);
     };
 
+    const deleteSchedule = async (schedule: Schedule) => {
+        await fetch(`/api/schedules/${schedule.id}`,{
+            method: "DELETE",
+        });
+
+        const newDateList = [...dateList];
+        const [firstIndex, secondIndex] = getDateListIndex(newDateList, schedule);
+        if (firstIndex === -1) return;
+
+        newDateList[firstIndex][secondIndex].schedules =
+            newDateList[firstIndex][secondIndex].schedules.filter(
+                (s) => s.id !== schedule.id 
+            );
+        setDateList(newDateList);
+    };
+
     useEffect(() => {
         const fetchCalendar = async () => {
             const res = await fetch("/api/schedules");
@@ -98,5 +114,5 @@ export const useCalendar = ({ currentDate }: PropsType) => {
         fetchCalendar();
     }, [currentDate]);
 
-    return { dateList, addSchedule, updateSchedule  };
+    return { dateList, addSchedule, updateSchedule, deleteSchedule };
 };
