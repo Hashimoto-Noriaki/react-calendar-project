@@ -1,32 +1,48 @@
-import { Dispatch, SetStateAction } from "react";
-import { addMonths } from "date-fns";
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
-import { PrimaryBtn } from "../atoms/PrimaryBtn";
+import { Dispatch, SetStateAction, useState } from "react"
+import { addMonths } from "date-fns"
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa"
+import { PrimaryBtn } from "../atoms/PrimaryBtn"
+import { CreateScheduleModal } from "./CreateScheduleModal"
+import type { NewSchedule } from "../../../types/calendar"
 
 type PropsType = {
     setCurrentDate: Dispatch<SetStateAction<Date>>;
+    addSchedule: (newSchedule: NewSchedule) => Promise<void>;
 };
 
-export const CalendarNav = ({ setCurrentDate }: PropsType) => {
-    const changeToday = () => setCurrentDate(new Date());
-    const changePrevMonth = () => setCurrentDate((prev) => addMonths(prev, -1));
-    const changeNextMonth = () => setCurrentDate((prev) => addMonths(prev, 1));
+export const CalendarNav = ({ setCurrentDate, addSchedule }: PropsType) => {
+    const [isOpen, setIsOpen] = useState(false)
+    const closeModal = () => setIsOpen(false)
+
+    const changeToday = () => setCurrentDate(new Date())
+    const changePrevMonth = () =>
+        setCurrentDate((prevDate) => addMonths(prevDate, -1))
+    const changeNextMonth = () =>
+        setCurrentDate((prevDate) => addMonths(prevDate, 1))
 
     return (
-    <div className="w-[80%] flex justify-between mb-2">
-        <div className="flex items-center gap-4">
-            <FaArrowAltCircleLeft
-                className="text-lime-800 text-2xl cursor-pointer"
-                onClick={changePrevMonth}
-            />
-            <PrimaryBtn size="sm" onClick={changeToday}>
-                今日
+        <div className="w-[80%] flex justify-between mb-2">
+            <div className="flex items-center text-white gap-4">
+                <FaArrowAltCircleLeft
+                    className="text-lime-800 text-2xl"
+                    onClick={changePrevMonth}
+                />
+                <PrimaryBtn size="sm" onClick={changeToday}>
+                    今日
+                </PrimaryBtn>
+                <FaArrowAltCircleRight
+                    className="text-lime-800 text-2xl"
+                    onClick={changeNextMonth}
+                />
+            </div>
+            <PrimaryBtn size="sm" onClick={() => setIsOpen(true)}>
+            予定作成
             </PrimaryBtn>
-            <FaArrowAltCircleRight
-                className="text-lime-800 text-2xl cursor-pointer"
-                onClick={changeNextMonth}
+            <CreateScheduleModal
+                isOpen={isOpen}
+                closeModal={closeModal}
+                addSchedule={addSchedule}
             />
         </div>
-    </div>
-    );
-};
+    )
+}
