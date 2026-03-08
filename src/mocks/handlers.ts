@@ -1,10 +1,11 @@
+
 import { http, HttpResponse } from "msw";
 import { addDays, format } from "date-fns";
-import type { Schedule } from "../types/calendar";
+import type { NewSchedule, Schedule } from "../types/calendar";
 
 const today = new Date();
 
-export const scheduleStore: Schedule[] = [
+export let scheduleStore: Schedule[] = [
   {
     id: 1,
     title: "予定1",
@@ -33,12 +34,21 @@ export const scheduleStore: Schedule[] = [
     id: 5,
     title: "予定5",
     description: "説明5",
-    date: format(addDays(today, -3), "yyyy-MM-dd"),
+    date: format(addDays(today, -9), "yyyy-MM-dd"),
   },
 ];
 
 export const handlers = [
   http.get("/api/schedules", () => {
     return HttpResponse.json(scheduleStore);
+  }),
+  http.post("/api/schedules", async ({ request }) => {
+    const newSchedule = await request.json() as NewSchedule;
+    const schedule: Schedule = {
+      id: Date.now(),
+      ...newSchedule,
+    };
+    scheduleStore = [...scheduleStore, schedule];
+    return HttpResponse.json(schedule, { status: 201 });
   }),
 ];

@@ -1,5 +1,5 @@
-import Modal from 'react-modal'
-import { ChangeEvent, useState } from "react";
+import Modal from "react-modal";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { format } from "date-fns";
 import { Input } from "../atoms/Input";
 import { PrimaryBtn } from "../atoms/PrimaryBtn";
@@ -7,29 +7,33 @@ import { Textarea } from "../atoms/Textarea";
 import type { NewSchedule } from "../../../types/calendar";
 
 type PropsType = {
-    idOpen: boolean;
-    closeModal:() => void;
-}
+    isOpen: boolean;
+    closeModal: () => void;
+    addSchedule: (newSchedule: NewSchedule) => Promise<void>;
+};
 
-const customStyles = ({
-    content:{
+const customStyles = {
+    content: {
         top: "50%",
         left: "50%",
         width: "30%",
         height: "50vh",
         transform: "translate(-50%, -50%)",
     },
-});
+};
+
+const INIT_SCHEDULE: NewSchedule = {
+    title: "",
+    date: format(new Date(), "yyyy-MM-dd"),
+    description: "",
+};
 
 export const CreateScheduleModal = ({
     isOpen,
     closeModal,
+    addSchedule,
 }: PropsType) => {
-    const [newSchedule, setNewSchedule] = useState<NewSchedule>({
-        title:"",
-        date: format(new Date(), "yyyy-mm-dd"),
-        description:"",
-    })
+    const [newSchedule, setNewSchedule] = useState<NewSchedule>(INIT_SCHEDULE);
 
     const changeNewSchedule = (
         event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -38,13 +42,20 @@ export const CreateScheduleModal = ({
         setNewSchedule({ ...newSchedule, [name]: value });
     };
 
+    const handleCreateSchedule = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        await addSchedule(newSchedule);
+        setNewSchedule(INIT_SCHEDULE);
+        closeModal();
+    };
+
     return (
-        <Modal isOpen={isOpen} style={customStyles} onRequestModal={closeModal}>
+        <Modal isOpen={isOpen} style={customStyles} onRequestClose={closeModal}>
             <div>
-                <h3 className="text-center text-3xl text-lime-800 font-bold mb-5">
+                <h3 className="text-center text-3xl text-lime-800 font-bold pb-5">
                     予定作成
                 </h3>
-                <form className="flex flex-col gap-8">
+                <form className="flex flex-col gap-8" onSubmit={handleCreateSchedule}>
                     <div className="w-full flex items-center">
                         <label className="w-[30%] text-lime-800">タイトル</label>
                         <Input
@@ -79,5 +90,5 @@ export const CreateScheduleModal = ({
                 </form>
             </div>
         </Modal>
-    )
-}
+    );
+};
