@@ -9,7 +9,7 @@ import {
 
 export const CalendarPage = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
-    const { dateList, addSchedule,  updateSchedule } = useCalendar({ currentDate });
+    const { dateList, addSchedule,  updateSchedule, deleteSchedule } = useCalendar({ currentDate });
 
     return (
         <>
@@ -19,7 +19,7 @@ export const CalendarPage = () => {
             <CalendarNav setCurrentDate={setCurrentDate} addSchedule={addSchedule} />
             <table className="w-[80%] border-collapse border-2 border-solid border-lime-800 table-fixed">
                 <CalendarHeader />
-                <CalendarBody currentDate={currentDate} dateList={dateList} updateSchedule={updateSchedule} />
+                <CalendarBody currentDate={currentDate} dateList={dateList} updateSchedule={updateSchedule} deleteSchedule={deleteSchedule}/>
             </table>
         </>
     );

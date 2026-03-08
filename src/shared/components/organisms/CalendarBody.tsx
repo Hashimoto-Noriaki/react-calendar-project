@@ -9,15 +9,23 @@ import type { DateList, Schedule } from "../../../types/calendar";
 type PropsType = {
   currentDate: Date;
   dateList: DateList;
+  updateSchedule: (schedule: Schedule) => Promise<void>;
+  deleteSchedule: (schedule: Schedule) => Promise<void>;
 };
 
-export const CalendarBody = ({ currentDate, dateList, updateSchedule }: PropsType) => {
+export const CalendarBody = ({ currentDate, dateList, updateSchedule,deleteSchedule }: PropsType) => {
   const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(null);
   const [isUpdateOpen,setIsUpdateOpen] = useState(false);
 
   const closeDetailModal = () => setSelectedSchedule(null);
   const openUpdateModal = () => setIsUpdateOpen(true);
   const closeUpdateModal = () => setIsUpdateOpen(false);
+
+  const handleDelete = async () => {
+    if (!selectedSchedule) return;
+    await deleteSchedule(selectedSchedule);
+    closeDetailModal();
+  };
 
   return (
     <>
@@ -56,6 +64,7 @@ export const CalendarBody = ({ currentDate, dateList, updateSchedule }: PropsTyp
         selectedSchedule={selectedSchedule}
         closeModal={closeDetailModal}
         onClickEdit={openUpdateModal}
+        onClickDelete={handleDelete}
       />
       {selectedSchedule && (
         <UpdateScheduleModal
