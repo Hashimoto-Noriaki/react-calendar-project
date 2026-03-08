@@ -50,6 +50,24 @@ export const useCalendar = ({ currentDate }: PropsType) => {
         setDateList(newDateList);
     };
 
+    const updateSchedule = async (updatedSchedule: Schedule) => {
+        await fetch(`/api/schedules/${updatedSchedule.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedSchedule),
+        });
+
+        const newDateList = [...dateList];
+        const [firstIndex, secondIndex] = getDateListIndex(newDateList, updatedSchedule);
+        if (firstIndex === -1) return;
+
+        newDateList[firstIndex][secondIndex].schedules =
+            newDateList[firstIndex][secondIndex].schedules.map((s) =>
+                s.id === updatedSchedule.id ? updatedSchedule : s
+            );
+        setDateList(newDateList);
+    };
+
     useEffect(() => {
         const fetchCalendar = async () => {
             const res = await fetch("/api/schedules");
@@ -80,5 +98,5 @@ export const useCalendar = ({ currentDate }: PropsType) => {
         fetchCalendar();
     }, [currentDate]);
 
-    return { dateList, addSchedule };
+    return { dateList, addSchedule, updateSchedule  };
 };

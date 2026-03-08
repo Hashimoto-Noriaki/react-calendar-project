@@ -51,4 +51,13 @@ export const handlers = [
     scheduleStore = [...scheduleStore, schedule];
     return HttpResponse.json(schedule, { status: 201 });
   }),
+  http.patch("/api/schedules/:id", async ({ request, params }) => {
+    const id = Number(params.id);
+    const body = await request.json() as Partial<Schedule>;
+    scheduleStore = scheduleStore.map((s) =>
+      s.id === id ? { ...s, ...body } : s
+    );
+    const updated = scheduleStore.find((s) => s.id === id);
+    return HttpResponse.json(updated);
+  }),
 ];

@@ -3,6 +3,7 @@ import { getDate } from "date-fns";
 import { dateColor } from "../../../libs/date";
 import { ScheduleBtn } from "../atoms/ScheduleBtn";
 import { ScheduleDetailModal } from "./ScheduleDetailModal";
+import { UpdateScheduleModal } from "./UpdateScheduleModal";
 import type { DateList, Schedule } from "../../../types/calendar";
 
 type PropsType = {
@@ -10,11 +11,13 @@ type PropsType = {
   dateList: DateList;
 };
 
-export const CalendarBody = ({ currentDate, dateList }: PropsType) => {
-  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(
-    null
-  );
-  const closeModal = () => setSelectedSchedule(null);
+export const CalendarBody = ({ currentDate, dateList, updateSchedule }: PropsType) => {
+  const [selectedSchedule, setSelectedSchedule] = useState<Schedule | null>(null);
+  const [isUpdateOpen,setIsUpdateOpen] = useState(false);
+
+  const closeDetailModal = () => setSelectedSchedule(null);
+  const openUpdateModal = () => setIsUpdateOpen(true);
+  const closeUpdateModal = () => setIsUpdateOpen(false);
 
   return (
     <>
@@ -51,8 +54,17 @@ export const CalendarBody = ({ currentDate, dateList }: PropsType) => {
       </tbody>
       <ScheduleDetailModal
         selectedSchedule={selectedSchedule}
-        closeModal={closeModal}
+        closeModal={closeDetailModal}
+        onClickEdit={openUpdateModal}
       />
+      {selectedSchedule && (
+        <UpdateScheduleModal
+          isOpen={isUpdateOpen}
+          closeModal={closeUpdateModal}
+          selectedSchedule={selectedSchedule}
+          updateSchedule={updateSchedule}
+        />
+      )}
     </>
   );
 };
