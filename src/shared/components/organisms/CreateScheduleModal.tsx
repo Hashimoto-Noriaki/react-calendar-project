@@ -34,16 +34,23 @@ export const CreateScheduleModal = ({
     addSchedule,
 }: PropsType) => {
     const [newSchedule, setNewSchedule] = useState<NewSchedule>(INIT_SCHEDULE);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const changeNewSchedule = (
         event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
-        const { name, value } = event.target;
-        setNewSchedule({ ...newSchedule, [name]: value });
+    const { name, value } = event.target;
+    setNewSchedule({ ...newSchedule, [name]: value });
     };
 
     const handleCreateSchedule = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (newSchedule.title === "") {
+            setErrorMessage("タイトルを入力してください");
+        return;
+        } else {
+            setErrorMessage("");
+        }
         await addSchedule(newSchedule);
         setNewSchedule(INIT_SCHEDULE);
         closeModal();
@@ -55,6 +62,11 @@ export const CreateScheduleModal = ({
                 <h3 className="text-center text-3xl text-lime-800 font-bold pb-5">
                     予定作成
                 </h3>
+                {errorMessage !== "" && (
+                    <div className="p-5 mb-5 bg-red-500 text-white text-center rounded-lg">
+                    {errorMessage}
+                    </div>
+                )}
                 <form className="flex flex-col gap-8" onSubmit={handleCreateSchedule}>
                     <div className="w-full flex items-center">
                         <label className="w-[30%] text-lime-800">タイトル</label>
